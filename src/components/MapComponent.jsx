@@ -47,7 +47,6 @@ function UserLocationMarker() {
 }
 
 function MapComponent() {
-  const defaultCenter = [30.0444, 31.2357]; // Cairo fallback if user location not found
   const size = "min(80vw, 520px)";
 
   return (
@@ -62,17 +61,14 @@ function MapComponent() {
           boxShadow: "0 8px 24px rgba(2,6,23,0.35)",
         }}
       >
-        <MapContainer
-          center={defaultCenter}
-          zoom={12}
-          style={{ height: "100%", width: "100%" }}
-        >
+        {/* Default center just a fallback (will update to user's location automatically) */}
+        <MapContainer center={[30.0, 31.0]} zoom={6} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Shows user's live position */}
+          {/* 🧭 User’s live location */}
           <UserLocationMarker />
         </MapContainer>
       </div>
