@@ -66,9 +66,6 @@ function MapComponent() {
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={tanta}>
-            <Popup>Tanta el fala7a</Popup>
-          </Marker>
 
           {/* 🧭 Add the user's location marker */}
           <UserLocationMarker />
