@@ -109,3 +109,14 @@ html, body, #root {
   box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25);
   background: linear-gradient(90deg, #0ea5e9 0%, #38bdf8 100%);
 }
+
+.container {
+  display: flex;
+}
+
+/* App-level responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
