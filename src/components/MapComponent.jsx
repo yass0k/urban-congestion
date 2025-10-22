@@ -3,7 +3,6 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 
-// Fix Leaflet default marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -14,7 +13,7 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-// 🧭 Tracks and shows the user's live location
+// elly beyetrack el user location
 function UserLocationMarker() {
   const [position, setPosition] = useState(null);
   const map = useMap();
@@ -30,7 +29,7 @@ function UserLocationMarker() {
         const { latitude, longitude } = pos.coords;
         const newPos = [latitude, longitude];
         setPosition(newPos);
-        map.setView(newPos, 14); // move map to user's position
+        map.setView(newPos, 14); // el moving 
       },
       (err) => console.error(err),
       { enableHighAccuracy: true }
@@ -41,12 +40,13 @@ function UserLocationMarker() {
 
   return position ? (
     <Marker position={position}>
-      <Popup>You’re here 🧍‍♀️</Popup>
+      <Popup> 😉 منور يا برنس </Popup>
     </Marker>
   ) : null;
 }
 
 function MapComponent() {
+  const tanta = [30.7865, 31.0004]; // da makan tanta
   const size = "min(80vw, 520px)";
 
   return (
@@ -61,14 +61,16 @@ function MapComponent() {
           boxShadow: "0 8px 24px rgba(2,6,23,0.35)",
         }}
       >
-        {/* Default center just a fallback (will update to user's location automatically) */}
-        <MapContainer center={[30.0, 31.0]} zoom={6} style={{ height: "100%", width: "100%" }}>
+        <MapContainer center={tanta} zoom={12} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          <Marker position={tanta}>
+            <Popup>Tanta el fala7a</Popup>
+          </Marker>
 
-          {/* 🧭 User’s live location */}
+          {/* 🧭 Add the user's location marker */}
           <UserLocationMarker />
         </MapContainer>
       </div>
