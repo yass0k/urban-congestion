@@ -1,8 +1,8 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useEffect, useState } from "react";
 
-// Fix Leaflet default marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -13,10 +13,40 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-function MapComponent() {
-  const tanta = [30.7865, 31.0004]; // Tanta, Egypt
+// elly beyetrack el user location
+function UserLocationMarker() {
+  const [position, setPosition] = useState(null);
+  const map = useMap();
 
-  // size: keeps the map roughly square, responsive but capped so it's not too big
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      console.log("Geolocation not supported");
+      return;
+    }
+
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        const newPos = [latitude, longitude];
+        setPosition(newPos);
+        map.setView(newPos, 14); // el moving 
+      },
+      (err) => console.error(err),
+      { enableHighAccuracy: true }
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [map]);
+
+  return position ? (
+    <Marker position={position}>
+      <Popup>You’re here 🧍‍♀️</Popup>
+    </Marker>
+  ) : null;
+}
+
+function MapComponent() {
+  const tanta = [30.7865, 31.0004]; // da makan tanta
   const size = "min(80vw, 520px)";
 
   return (
@@ -39,6 +69,9 @@ function MapComponent() {
           <Marker position={tanta}>
             <Popup>Welcome to Tanta — congestion monitoring area 🚗</Popup>
           </Marker>
+
+          {/* 🧭 Add the user's location marker */}
+          <UserLocationMarker />
         </MapContainer>
       </div>
     </div>
