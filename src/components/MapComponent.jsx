@@ -67,7 +67,7 @@ function MapComponent() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={tanta}>
-            <Popup>Welcome to Tanta — congestion monitoring area 🚗</Popup>
+            <Popup>Tanta el fala7a</Popup>
           </Marker>
 
           {/* 🧭 Add the user's location marker */}
