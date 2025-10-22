@@ -40,7 +40,7 @@ function UserLocationMarker() {
 
   return position ? (
     <Marker position={position}>
-      <Popup>You’re here 🧍‍♀️</Popup>
+      <Popup> 😉 منور يا برنس </Popup>
     </Marker>
   ) : null;
 }
