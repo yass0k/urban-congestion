@@ -50,15 +50,3 @@
 .links a:hover::after {
   width: 100%;
 }
-
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .links a {
-    display: block;
-    margin: 10px 0;
-  }
-}
