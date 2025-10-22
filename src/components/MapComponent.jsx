@@ -1,8 +1,9 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 
+// Fix Leaflet default marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -13,8 +14,8 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-// elly beyetrack el user location
-function UserLocationMarker() {
+// 🧭 Tracks user's live location
+function UserLocationMarker({ onPositionChange }) {
   const [position, setPosition] = useState(null);
   const map = useMap();
 
@@ -29,24 +30,47 @@ function UserLocationMarker() {
         const { latitude, longitude } = pos.coords;
         const newPos = [latitude, longitude];
         setPosition(newPos);
-        map.setView(newPos, 14); // el moving 
+        onPositionChange(newPos);
+        map.setView(newPos, 14);
       },
       (err) => console.error(err),
       { enableHighAccuracy: true }
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
-  }, [map]);
+  }, [map, onPositionChange]);
 
   return position ? (
     <Marker position={position}>
-      <Popup> 😉 منور يا برنس </Popup>
+      <Popup>😉 منور يا برنس</Popup>
+    </Marker>
+  ) : null;
+}
+
+// 🎯 Lets the user set their destination by clicking the map
+function DestinationMarker({ onDestinationSelect }) {
+  const [destination, setDestination] = useState(null);
+
+  useMapEvents({
+    click(e) {
+      const { lat, lng } = e.latlng;
+      const newDest = [lat, lng];
+      setDestination(newDest);
+      onDestinationSelect(newDest);
+    },
+  });
+
+  return destination ? (
+    <Marker position={destination}>
+      <Popup>🎯 وجهتك هنا</Popup>
     </Marker>
   ) : null;
 }
 
 function MapComponent() {
-  const tanta = [30.7865, 31.0004]; // da makan tanta
+  const [userPosition, setUserPosition] = useState(null);
+  const [destination, setDestination] = useState(null);
+
   const size = "min(80vw, 520px)";
 
   return (
@@ -61,14 +85,17 @@ function MapComponent() {
           boxShadow: "0 8px 24px rgba(2,6,23,0.35)",
         }}
       >
-        <MapContainer center={tanta} zoom={12} style={{ height: "100%", width: "100%" }}>
+        <MapContainer center={[30.7865, 31.0004]} zoom={12} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* 🧭 Add the user's location marker */}
-          <UserLocationMarker />
+          {/* User’s live location */}
+          <UserLocationMarker onPositionChange={setUserPosition} />
+
+          {/* User’s selected destination */}
+          <DestinationMarker onDestinationSelect={setDestination} />
         </MapContainer>
       </div>
     </div>
