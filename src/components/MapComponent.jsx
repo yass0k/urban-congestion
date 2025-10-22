@@ -46,6 +46,8 @@ function UserLocationMarker() {
 }
 
 function MapComponent() {
+  const tanta = [30.7865, 31.0004]; // da makan tanta
+  const size = "min(80vw, 520px)";
 
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: "1.5rem" }}>
