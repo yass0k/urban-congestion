@@ -10,7 +10,7 @@ function Dashboard() {
 
   const handleStartRoute = () => {
     if (!userPosition || !destination) {
-      setAlertMessage("Please select your destination first!");
+      setAlertMessage("Select your destination first Bro!");
       return;
     }
 
@@ -57,7 +57,7 @@ function Dashboard() {
             gap: "1rem",
           }}
         >
-          <h2>Alerts</h2>
+          <h2>Notice</h2>
           <p>{alertMessage}</p>
           <button
             onClick={handleStartRoute}
