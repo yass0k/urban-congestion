@@ -2,11 +2,7 @@
   text-align: center;
   padding: 3rem 2rem;
   color: #e2e8f0;
-  background-image: url('your-wallpaper.jpg'); /* replace with your wallpaper */
-  background-size: cover;         /* makes it cover the full area */
-  background-position: center;    /* centers the image */
-  background-repeat: no-repeat;   /* avoids tiling */
-  min-height: 100vh;              /* ensures it fills the viewport height */
+  min-height: 100vh; /* FULL SCREEN ON MOBILE */
 }
 
 .page h1 {
