@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MapComponent from "../components/MapComponent";
 
 function Dashboard() {
-  const [alertMessage, setAlertMessage] = useState("Welcome! Select your destination."); // initial message
+  const [alertMessage, setAlertMessage] = useState("Welcome! Select your destination.");
 
   return (
     <div className="page" style={{ padding: "1rem" }}>
@@ -11,17 +11,19 @@ function Dashboard() {
       <div
         style={{
           display: "flex",
-          flexDirection: "row", 
+          flexDirection: "row",
           gap: "1rem",
-          flexWrap: "wrap", 
+          flexWrap: "wrap",          // allows stacking on small screens
+          justifyContent: "center",  // centers content horizontally
+          alignItems: "flex-start",  // aligns top edges
         }}
       >
-        {/* el map */}
+        {/* Map */}
         <div style={{ flex: "1 1 500px", minWidth: "300px" }}>
           <MapComponent />
         </div>
 
-        {/* el alert box */}
+        {/* Alert Box */}
         <div
           style={{
             flex: "0 0 250px",
@@ -31,9 +33,10 @@ function Dashboard() {
             padding: "1rem",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
             height: "fit-content",
+            alignSelf: "flex-start",  // keeps it top-aligned
           }}
         >
-          <h2>Notice</h2>
+          <h2>Alerts</h2>
           <p>{alertMessage}</p>
         </div>
       </div>
