@@ -62,7 +62,6 @@ function DestinationMarker({ onDestinationSelect }) {
 
   return destination ? (
     <Marker position={destination}>
-      <Popup>🎯 وجهتك هنا</Popup>
     </Marker>
   ) : null;
 }
