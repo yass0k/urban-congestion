@@ -16,7 +16,7 @@ function Dashboard() {
 
     console.log("User position:", userPosition);
     console.log("Destination:", destination);
-    setAlertMessage("Route started! (Simulated for now)");
+    setAlertMessage("Route started! (haha not really... comming soon!)");
   };
 
   return (

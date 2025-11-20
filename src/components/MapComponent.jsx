@@ -42,7 +42,7 @@ function UserLocationMarker({ onPositionChange }) {
 
   return position ? (
     <Marker position={position}>
-      <Popup>😉 منور يا برنس</Popup>
+      <Popup>You're here..duh :/</Popup>
     </Marker>
   ) : null;
 }
