@@ -30,7 +30,7 @@ function UserLocationMarker({ onPositionChange }) {
         const { latitude, longitude } = pos.coords;
         const newPos = [latitude, longitude];
         setPosition(newPos);
-        onPositionChange(newPos);
+        if (onPositionChange) onPositionChange(newPos);
         map.setView(newPos, 14);
       },
       (err) => console.error(err),
@@ -42,6 +42,7 @@ function UserLocationMarker({ onPositionChange }) {
 
   return position ? (
     <Marker position={position}>
+      <Popup>😉 منور يا برنس</Popup>
     </Marker>
   ) : null;
 }
@@ -55,7 +56,7 @@ function DestinationMarker({ onDestinationSelect }) {
       const { lat, lng } = e.latlng;
       const newDest = [lat, lng];
       setDestination(newDest);
-      onDestinationSelect(newDest);
+      if (onDestinationSelect) onDestinationSelect(newDest);
     },
   });
 
@@ -66,7 +67,8 @@ function DestinationMarker({ onDestinationSelect }) {
   ) : null;
 }
 
-function MapComponent() {
+// MapComponent now accepts callbacks to pass coordinates up to Dashboard
+function MapComponent({ onUserPositionChange, onDestinationSelect }) {
   const [userPosition, setUserPosition] = useState(null);
   const [destination, setDestination] = useState(null);
 
@@ -90,11 +92,21 @@ function MapComponent() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* User’s live location */}
-          <UserLocationMarker onPositionChange={setUserPosition} />
+          {/* User’s live location — forwards coords to parent prop and keeps local state */}
+          <UserLocationMarker
+            onPositionChange={(pos) => {
+              setUserPosition(pos);
+              if (onUserPositionChange) onUserPositionChange(pos);
+            }}
+          />
 
-          {/* User’s selected destination */}
-          <DestinationMarker onDestinationSelect={setDestination} />
+          {/* User’s selected destination — forwards coords to parent prop and keeps local state */}
+          <DestinationMarker
+            onDestinationSelect={(pos) => {
+              setDestination(pos);
+              if (onDestinationSelect) onDestinationSelect(pos);
+            }}
+          />
         </MapContainer>
       </div>
     </div>

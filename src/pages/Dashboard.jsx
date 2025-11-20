@@ -5,6 +5,19 @@ function Dashboard() {
   const [alertMessage, setAlertMessage] = useState(
     "Welcome! Select your destination."
   );
+  const [userPosition, setUserPosition] = useState(null);
+  const [destination, setDestination] = useState(null);
+
+  const handleStartRoute = () => {
+    if (!userPosition || !destination) {
+      setAlertMessage("Please select your destination first!");
+      return;
+    }
+
+    console.log("User position:", userPosition);
+    console.log("Destination:", destination);
+    setAlertMessage("Route started! (Simulated for now)");
+  };
 
   return (
     <div className="page" style={{ padding: "1rem" }}>
@@ -16,37 +29,49 @@ function Dashboard() {
           flexDirection: "row",
           gap: "1rem",
           flexWrap: "wrap",
-          justifyContent: "center", // center the container horizontally
+          justifyContent: "center",
           alignItems: "flex-start",
         }}
       >
         {/* Map */}
-        <div
-          style={{
-            flex: "2 1 600px", // map takes 2x space compared to alert
-            minWidth: "300px",
-            maxWidth: "800px", // keeps map from getting too huge
-          }}
-        >
-          <MapComponent />
+        <div style={{ flex: "2 1 600px", minWidth: "300px", maxWidth: "800px" }}>
+          <MapComponent
+            onUserPositionChange={setUserPosition}
+            onDestinationSelect={setDestination}
+          />
         </div>
 
-        {/* Alert Box */}
+        {/* Alert Box + Button */}
         <div
           style={{
-            flex: "1 1 300px", // alert takes 1x space
+            flex: "1 1 300px",
             minWidth: "250px",
-            maxWidth: "350px", // prevent it from being too small on desktop
+            maxWidth: "350px",
             border: "2px solid rgba(56,189,248,0.2)",
             borderRadius: "12px",
             padding: "1rem",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-            height: "fit-content",
-            alignSelf: "flex-start",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            gap: "1rem",
           }}
         >
           <h2>Alerts</h2>
           <p>{alertMessage}</p>
+          <button
+            onClick={handleStartRoute}
+            style={{
+              padding: "0.5rem 1rem",
+              backgroundColor: "#38bdf8",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
+            Start Route
+          </button>
         </div>
       </div>
     </div>
